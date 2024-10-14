@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styles: [
   ]
 })
-export class HeroPageComponent implements OnInit {
+export class HeroDetailComponent implements OnInit {
 
 
   constructor(
