@@ -10,7 +10,7 @@ export class DesignPageComponent {
   public sidebarOptions = [
     { label: 'Heroes', icon: 'label', url: './list' },
     { label: 'Nuevo Héroe', icon: 'add', url: './new-hero' },
-    { label: 'Buscar Heroe', icon: 'search', url: './search' },
+    { label: 'Buscar Héroe', icon: 'search', url: './search' },
   ]
 
 }
