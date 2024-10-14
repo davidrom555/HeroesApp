@@ -8,9 +8,8 @@ import { Component } from '@angular/core';
 export class DesignPageComponent {
 
   public sidebarOptions = [
-    { label: 'Heroes', icon: 'label', url: './list' },
+    { label: 'Héroes', icon: 'label', url: './list' },
     { label: 'Nuevo Héroe', icon: 'add', url: './new-hero' },
-    { label: 'Buscar Héroe', icon: 'search', url: './search' },
+    { label: 'Buscar Héroe', icon: 'search', url: './search-hero' },
   ]
-
 }

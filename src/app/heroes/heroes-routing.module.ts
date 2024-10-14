@@ -12,7 +12,7 @@ const routes: Routes = [
     children: [
       { path: 'list', component: HerolistComponent },
       { path: 'new-hero', component: NewHeroeComponent },
-      { path: 'search', component: SearchHeroeComponent },
+      { path: 'search-hero', component: SearchHeroeComponent },
       { path: ':id', component: DesignPageComponent},
       { path: 'edit/:id', component: NewHeroeComponent },
       { path: '**', redirectTo: 'list' },
