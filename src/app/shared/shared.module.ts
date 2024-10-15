@@ -13,10 +13,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   exports: [
     MatAutocompleteModule,
+    MatDialogModule,
     MatButtonModule,
     MatCardModule,
     MatChipsModule,
