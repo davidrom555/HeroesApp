@@ -15,7 +15,7 @@ export class HerolistComponent implements OnInit {
   constructor( private heroesService: HeroesService ) {}
 
   ngOnInit(): void {
-
+   
   }
 
 }
