@@ -49,7 +49,7 @@ export class NewHeroComponent implements OnInit {
     this.heroesService.addHero(newHero);
     
     // Opcional: Navegar a la lista de héroes o resetear el formulario
-    this.router.navigate(['/heroes']);
+    this.router.navigate(['/list']);
   }
 
   onDeleteHero() {

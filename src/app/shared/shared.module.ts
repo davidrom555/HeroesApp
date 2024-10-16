@@ -14,6 +14,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   exports: [
@@ -32,6 +33,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSidenavModule,
     MatSnackBarModule,
     MatToolbarModule,
+    MatPaginatorModule
   ]
 })
 export class SharedModule { }
