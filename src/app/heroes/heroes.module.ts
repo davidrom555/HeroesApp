@@ -10,6 +10,8 @@ import { NewHeroComponent } from './pages/new-hero/new-hero.component';
 import { CardComponent } from './components/card/card.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { HeroImagePipe } from './pipes/hero-image.pipe';
+import { UppercaseDirective } from './directives/uppercase.directive';
+
 
 @NgModule({
   declarations: [
@@ -20,7 +22,8 @@ import { HeroImagePipe } from './pipes/hero-image.pipe';
     CardComponent,
     HeroImagePipe,
     CardComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    UppercaseDirective
   ],
   imports: [
     CommonModule,

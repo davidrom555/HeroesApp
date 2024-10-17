@@ -1,6 +1,7 @@
+<div class="container">
 <h1>
   {{ currentHero.id ? 'Editar' : 'Agregar' }} héroe
-  <small *ngIf="currentHero.id">{{ currentHero.name }}</small>
+  <small *ngIf="currentHero.id">{{ currentHero.name | uppercase }}</small>
 </h1>
 
 <mat-divider class="mb-2"></mat-divider>
@@ -18,6 +19,7 @@
               type="text"
               required
               formControlName="name"
+              appUppercase
             />
           </mat-form-field>
 
@@ -31,15 +33,16 @@
             />
           </mat-form-field>
           
-          <div *ngIf="currentHero.id" class="cont-imag">
+          <div *ngIf="heroForm.get('alt_img')?.value" class="cont-imag">
             <mat-card>
               <img 
-                [src]="currentHero | heroImage" 
+                [src]="heroForm.get('alt_img')?.value" 
                 alt="imagen del héroe" 
                 class="hero-image" 
               />
             </mat-card>
           </div>
+          
           
 
           <div class="col-12">
@@ -82,4 +85,5 @@
       </mat-card-content>
     </mat-card>
   </div>
+</div>
 </div>
