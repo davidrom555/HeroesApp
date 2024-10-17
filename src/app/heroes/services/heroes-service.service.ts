@@ -56,4 +56,11 @@ export class HeroesService {
     const hero = currentHeroes.find(h => h.id === id);
     return of(hero); 
   }
+
+  getHeroesByName(name: string): Observable<Hero[]> {
+    const currentHeroes = this.heroesSubject.getValue();
+    const filteredHeroes = currentHeroes.filter(hero => hero.name.toLowerCase().includes(name.toLowerCase()));
+    return of(filteredHeroes);
+  }
+  
 }
