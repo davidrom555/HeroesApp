@@ -5,7 +5,8 @@ import { Hero } from '../../interfaces/hero.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { v4 as uuidv4 } from 'uuid'; // Importa uuidv4 para generar IDs únicos
-import { switchMap } from 'rxjs';
+import { filter, switchMap } from 'rxjs';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'new-hero',
@@ -15,7 +16,7 @@ import { switchMap } from 'rxjs';
 export class NewHeroComponent implements OnInit {
 
   public heroForm = new FormGroup({
-    id: new FormControl<string>(''),
+    id: new FormControl<string>('', { nonNullable: true }),
     name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     power: new FormControl<string>('', { validators: [Validators.required] }),
     alt_img: new FormControl<string | null>(null, { validators: [Validators.required] }), // alt_img requerido
@@ -83,12 +84,19 @@ export class NewHeroComponent implements OnInit {
 
 
   onDeleteHero(): void {
-    if (!this.currentHero.id) {
-      throw new Error('Hero id is required');
-    }
-
-    this.heroesService.removeHero(this.currentHero.id); 
-    this.router.navigate(['/list']); 
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: this.heroForm.value
+    });
+  
+   
+    dialogRef.afterClosed()
+      .pipe(
+        filter((result: boolean) => result === true)
+      )
+      .subscribe(() => {
+        this.heroesService.removeHero(this.heroForm.get('id')?.value)
+        this.router.navigate(['/list']);
+      });
   }
 
   onImageSelected(event: Event): void {
