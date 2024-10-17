@@ -1,8 +1,8 @@
 
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{ hero.name}}</mat-card-title>
-    <mat-card-subtitle>{{ hero.power }}</mat-card-subtitle>
+    <mat-card-title>{{ hero.name | uppercase}}</mat-card-title>
+    <mat-card-subtitle>{{ hero.power | titlecase }}</mat-card-subtitle>
   </mat-card-header>
 
   <!-- TODO: imagen -->

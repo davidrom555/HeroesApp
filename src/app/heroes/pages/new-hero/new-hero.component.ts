@@ -91,13 +91,18 @@ export class NewHeroComponent implements OnInit {
     this.router.navigate(['/list']); 
   }
 
-  // Método para manejar la selección de la imagen
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
       this.selectedImage = input.files[0];
-      this.heroForm.patchValue({ alt_img: this.selectedImage.name }); // Actualiza el control de la imagen en el formulario
-      console.log('Imagen seleccionada:', this.selectedImage);
+      // Leer la imagen seleccionada como URL temporal para previsualización
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        // Establecer la imagen en el formulario (url de la imagen)
+        this.heroForm.patchValue({ alt_img: e.target?.result as string });
+      };
+      reader.readAsDataURL(this.selectedImage); // Convertir la imagen a Base64 para mostrarla inmediatamente
     }
   }
+  
 }
