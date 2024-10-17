@@ -31,7 +31,7 @@ export class HeroesService {
     this.updateHeroes([...currentHeroes]); // Asegurarse de crear una nueva referencia al array
   }
 
-  removeHero(id: string): void {
+  removeHero(id:any): void {
     const updatedHeroes = this.heroesSubject.getValue().filter(hero => hero.id !== id);
     this.updateHeroes(updatedHeroes);
   }

@@ -3,10 +3,13 @@
 <!-- Mostrar mensaje si no hay héroes en la lista -->
 <mat-card *ngIf="heroes.length === 0" class="empty-message">
   <mat-card-content>
-    <h2>No hay héroes disponibles</h2>
-    <p>Desde el menú puedes agregar un nuevo héroe.</p>
+    <div class="center-content">
+      <h2>No hay héroes disponibles</h2>
+      <p>Desde el menú puedes agregar un nuevo héroe.</p>
+    </div>
   </mat-card-content>
 </mat-card>
+
 
 <!-- Mostrar grilla de héroes cuando existan -->
 <div *ngIf="heroes.length > 0">
