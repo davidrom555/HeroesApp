@@ -1,81 +1,85 @@
 <h1>
-    {{ currentHero.id ? 'Editar' : 'Agregar' }}
-    héroe
-    <small *ngIf="currentHero.id">{{ currentHero.heroe }}</small>
-  </h1>
-  
-  <mat-divider class="mb-2"></mat-divider>
-  
-  <div class="grid">
-  
-    <div class="col-12 sm:col-6">
-      <mat-card>
-        <mat-card-content>
-  
-          <form class="grid" [formGroup]="heroForm">
-  
-            <mat-form-field class="col-12 sm:col-6">
-              <mat-label>Super héroe</mat-label>
-              <input
-                matInput
-                type="text"
-                required
-                formControlName="hero"
+  {{ currentHero.id ? 'Editar' : 'Agregar' }} héroe
+  <small *ngIf="currentHero.id">{{ currentHero.name }}</small>
+</h1>
+
+<mat-divider class="mb-2"></mat-divider>
+
+<div class="grid">
+  <div class="col-12 sm:col-6">
+    <mat-card>
+      <mat-card-content>
+        <form class="grid" [formGroup]="heroForm">
+
+          <mat-form-field class="col-12 sm:col-6">
+            <mat-label>Super héroe</mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              formControlName="name"
+            />
+          </mat-form-field>
+
+          <mat-form-field class="col-12 sm:col-6">
+            <mat-label>Poder</mat-label>
+            <input
+              matInput
+              type="text"
+              required
+              formControlName="power"
+            />
+          </mat-form-field>
+          
+          <div *ngIf="currentHero.id" class="cont-imag">
+            <mat-card>
+              <img 
+                [src]="currentHero | heroImage" 
+                alt="imagen del héroe" 
+                class="hero-image" 
               />
-            </mat-form-field>
-  
-            <mat-form-field class="col-12 sm:col-6">
-              <mat-label>Edad</mat-label>
-              <input
-                matInput
-                type="text"
-                required
-                formControlName="age"
-              />
-            </mat-form-field>
-  
-  
-            <mat-form-field class="col-12">
-              <mat-label>Poder</mat-label>
-              <input
-                matInput
-                type="text"
-                required
-                formControlName="power"
-              />
-            </mat-form-field>
-          </form>
-  
-          <div class="flex justify-content-between">
-            <button
-        
-              mat-flat-button
-              color="warn"
-            >
-              Borrar
-            </button>
-            <span></span>
-  
-            <button
-              mat-flat-button
-              color="primary"
-              (click)="onAddHero()"
-            >
-              <mat-icon>save</mat-icon>
-              Guardar
-            </button>
+            </mat-card>
           </div>
-  
-        </mat-card-content>
-      </mat-card>
-    </div>
-  
-    <div class="col-12 sm:col-6">
-  
-      <mat-card>
-       
-      </mat-card>
-  
-    </div>
+          
+
+          <div class="col-12">
+            <label for="image-upload" class="mat-label">Cargar imagen</label>
+            <input
+              id="image-upload"
+              type="file"
+              accept="image/*"
+              (change)="onImageSelected($event)"
+              style="display: block;"
+            />
+            <mat-icon matPrefix>photo</mat-icon>
+          </div>
+
+        </form>
+
+        <div class="flex justify-content-between">
+          <button
+            mat-flat-button
+            color="warn"
+            (click)="onDeleteHero()"
+            [disabled]="!currentHero.id"
+          >
+            <mat-icon>delete</mat-icon>
+            Borrar
+          </button>
+          <span class="button-padding-left"></span>
+
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="onAddHero()"
+            [disabled]="heroForm.invalid"
+          >
+            <mat-icon>save</mat-icon>
+            Guardar
+          </button>
+        </div>
+
+      </mat-card-content>
+    </mat-card>
   </div>
-    
+</div>

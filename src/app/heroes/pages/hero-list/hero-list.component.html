@@ -1,6 +1,6 @@
 <!-- Mostrar título solo si hay héroes -->
 <h1 *ngIf="heroes.length > 0" class="centered-title">Héroes</h1>
-<mat-divider *ngIf="heroes.length > 0"></mat-divider>
+<mat-divider class="mat-divider" *ngIf="heroes.length > 0"></mat-divider>
 
 <!-- Mostrar mensaje si no hay héroes en la lista -->
 <mat-card *ngIf="heroes.length === 0" class="empty-message">
@@ -10,11 +10,15 @@
   </mat-card-content>
 </mat-card>
 
-<!-- Mostrar lista de héroes cuando existan -->
-<div *ngIf="heroes.length > 0" class="grid bm-8 pt-2">
-  <div *ngFor="let hero of paginatedHeroes" class="col-12 sm:col-4 md:col-3 xl:col-2">
-    <heroes-hero-card [hero]="hero"></heroes-hero-card>
-  </div>
+<!-- Mostrar grilla de héroes cuando existan -->
+<div *ngIf="heroes.length > 0">
+  <mat-grid-list cols="5" rowHeight="300px" class="bm-8 pt-2">
+    <mat-grid-tile *ngFor="let hero of heroes">
+      <heroes-hero-card [hero]="hero"></heroes-hero-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  
+  
 </div>
 
 <!-- Mostrar paginador solo si hay héroes -->

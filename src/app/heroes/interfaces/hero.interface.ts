@@ -1,8 +1,7 @@
-
 export interface Hero {
   id: string;
-  heroe: string;
-  age: string;
+  name: string;
   power: string;
+  image?: File | null; 
+  alt_img?: string; 
 }
-

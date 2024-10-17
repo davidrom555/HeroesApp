@@ -1,9 +1,9 @@
 <h1 mat-dialog-title>¿Está seguro?</h1>
 <div mat-dialog-content>
-  <p>Desea elimiar a {{ data.heroe }}</p>
+  <p>Desea elimiar a {{ data.name }}</p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No</button>
   <span class="spacer"></span>
-  <button mat-button color="primary" (click)="onConfirm()" cdkFocusInitial>Ok</button>
+  <button mat-button color="primary" (click)="onConfirm()" cdkFocusInitial>Si</button>
 </div>

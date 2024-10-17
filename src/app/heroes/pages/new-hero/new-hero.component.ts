@@ -4,22 +4,25 @@ import { HeroesService } from '../../services/heroes-service.service';
 import { Hero } from '../../interfaces/hero.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { v4 as uuidv4 } from 'uuid'; // Importa uuidv4 para generar IDs únicos
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'new-hero',
   templateUrl: './new-hero.component.html',
-  styles: []
+  styleUrls: ['./new-hero.component.scss']
 })
 export class NewHeroComponent implements OnInit {
 
   public heroForm = new FormGroup({
-    id:        new FormControl<string>(''),
-    hero: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
-    age: new FormControl<string>('', { validators: [Validators.required] }),
+    id: new FormControl<string>(''),
+    name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     power: new FormControl<string>('', { validators: [Validators.required] }),
+    alt_img: new FormControl<string | null>(null, { validators: [Validators.required] }), // alt_img requerido
   });
+  
+
+  selectedImage: File | null = null; // Almacena la imagen seleccionada
 
   constructor(
     private heroesService: HeroesService,
@@ -28,42 +31,73 @@ export class NewHeroComponent implements OnInit {
     private dialog: MatDialog,
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+
+    if ( !this.router.url.includes('edit') ) return;
+
+    this.activatedRoute.params
+      .pipe(
+        switchMap( ({ id }) => this.heroesService.getHeroById( id ) ),
+      ).subscribe( hero => {
+
+        if ( !hero ) {
+          return this.router.navigateByUrl('/');
+        }
+
+        this.heroForm.reset( hero );
+        return;
+      });
+
+  }
 
   get currentHero(): Hero {
     return this.heroForm.value as Hero;
   }
 
-  // Método para agregar un nuevo héroe
   onAddHero(): void {
     if (this.heroForm.invalid) {
-      this.heroForm.markAllAsTouched(); // Marca el formulario si es inválido
+      this.heroForm.markAllAsTouched(); 
       return;
     }
 
-    const newHero: Hero = {
-      ...this.currentHero,
-      id: uuidv4() // Generar un ID único con uuidv4
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const newHero: Hero = {
+        ...this.currentHero,
+        id: this.currentHero.id || uuidv4(), // Solo genera un nuevo ID si no existe
+        alt_img: e.target?.result as string
+      };
+
+      this.heroesService.addHero(newHero);
+
+      this.router.navigate(['/list']);
     };
 
-    this.heroesService.addHero(newHero);
-    
-    // Opcional: Navegar a la lista de héroes o resetear el formulario
-    this.router.navigate(['/list']);
+    if (this.selectedImage) {
+      reader.readAsDataURL(this.selectedImage);
+    } else {
+      this.heroesService.addHero(this.currentHero);
+      this.router.navigate(['/list']);
+    }
   }
 
-  onDeleteHero() {
-    if (!this.currentHero.id) throw Error('Hero id is required');
 
-    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: this.heroForm.value
-    });
+  onDeleteHero(): void {
+    if (!this.currentHero.id) {
+      throw new Error('Hero id is required');
+    }
 
-    dialogRef.afterClosed().subscribe(result => {
-      if (!result) return;
+    this.heroesService.removeHero(this.currentHero.id); 
+    this.router.navigate(['/list']); 
+  }
 
-      this.heroesService.removeHero(this.currentHero.id);
-      this.router.navigate(['/heroes']);
-    });
+  // Método para manejar la selección de la imagen
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length) {
+      this.selectedImage = input.files[0];
+      this.heroForm.patchValue({ alt_img: this.selectedImage.name }); // Actualiza el control de la imagen en el formulario
+      console.log('Imagen seleccionada:', this.selectedImage);
+    }
   }
 }

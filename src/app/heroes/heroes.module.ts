@@ -9,6 +9,8 @@ import { HeroDetailComponent } from './pages/hero-detail/hero-detail.component';
 import { SearchHeroeComponent } from './pages/search-heroe/search-heroe.component';
 import { NewHeroComponent } from './pages/new-hero/new-hero.component';
 import { CardComponent } from './components/card/card.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { HeroImagePipe } from './pipes/hero-image.pipe';
 
 @NgModule({
   declarations: [
@@ -18,6 +20,9 @@ import { CardComponent } from './components/card/card.component';
     HeroDetailComponent,
     SearchHeroeComponent,
     CardComponent,
+    HeroImagePipe,
+    CardComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     CommonModule,

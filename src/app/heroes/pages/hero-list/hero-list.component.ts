@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'; 
 import { Hero } from '../../interfaces/hero.interface';
 import { HeroesService } from '../../services/heroes-service.service';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { LoadingService } from '../../services/loading-service.service';
 
 @Component({
   selector: 'hero-list',
@@ -10,7 +11,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
   styleUrls: ['./hero-list.component.scss']
 })
 export class HerolistComponent implements OnInit, OnDestroy {
-
+  public loading$: Observable<boolean>;
   public heroes: Hero[] = [];
   public paginatedHeroes: Hero[] = [];
   public pageSize = 5;  // Tamaño de página predeterminado
@@ -21,7 +22,10 @@ export class HerolistComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  constructor(private heroesService: HeroesService) {}
+  constructor(private heroesService: HeroesService,
+    private loadingService: LoadingService ) {
+      this.loading$ = this.loadingService.loading$
+    }
 
   ngOnInit(): void {
     this.heroesSubscription = this.heroesService.getHeroes()
