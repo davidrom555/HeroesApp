@@ -5,7 +5,6 @@ import { HeroesRoutingModule } from './heroes-routing.module';
 import { HerolistComponent } from './pages/hero-list/hero-list.component';
 import { SharedModule } from '../shared/shared.module';
 import { DesignPageComponent } from './pages/design-page/design-page.component';
-import { HeroDetailComponent } from './pages/hero-detail/hero-detail.component';
 import { SearchHeroeComponent } from './pages/search-heroe/search-heroe.component';
 import { NewHeroComponent } from './pages/new-hero/new-hero.component';
 import { CardComponent } from './components/card/card.component';
@@ -17,7 +16,6 @@ import { HeroImagePipe } from './pipes/hero-image.pipe';
     HerolistComponent,
     DesignPageComponent,
     NewHeroComponent,
-    HeroDetailComponent,
     SearchHeroeComponent,
     CardComponent,
     HeroImagePipe,
