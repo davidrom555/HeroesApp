@@ -12,18 +12,17 @@
 
 <!-- Mostrar grilla de héroes cuando existan -->
 <div *ngIf="heroes.length > 0">
+  <search-heroe (searchChange)="onSearchChange($event)"></search-heroe>
   <mat-grid-list cols="5" rowHeight="300px" class="bm-8 pt-2">
-    <mat-grid-tile *ngFor="let hero of heroes">
+    <mat-grid-tile *ngFor="let hero of paginatedHeroes">
       <heroes-hero-card [hero]="hero"></heroes-hero-card>
     </mat-grid-tile>
   </mat-grid-list>
-  
-  
 </div>
 
 <!-- Mostrar paginador solo si hay héroes -->
 <mat-paginator 
-  *ngIf="heroes.length > 0"
+  *ngIf="filteredHeroes.length > 0"
   [length]="totalHeroes"
   [pageSize]="pageSize"
   [pageSizeOptions]="[5, 10, 25, 100]"

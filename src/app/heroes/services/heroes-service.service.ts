@@ -57,10 +57,18 @@ export class HeroesService {
     return of(hero); 
   }
 
-  getHeroesByName(name: string): Observable<Hero[]> {
+  getHeroesByName(name: string | null): Observable<Hero[]> {
     const currentHeroes = this.heroesSubject.getValue();
-    const filteredHeroes = currentHeroes.filter(hero => hero.name.toLowerCase().includes(name.toLowerCase()));
-    return of(filteredHeroes);
-  }
   
+    if (!name) {
+      return of(currentHeroes);
+    }
+  
+    const filteredHeroes = currentHeroes.filter(hero =>
+      hero.name.toLowerCase().includes(name.toLowerCase())
+    );
+  
+    return of (filteredHeroes);
+  
+  }
 }
