@@ -24,9 +24,7 @@ export class CardComponent implements OnInit {
       this.loading$ = this.loadingService.loading$;
      }
 
-  ngOnInit(): void {
-    console.log(this.hero)
-  }
+  ngOnInit(): void {}
 
    onDeleteHero(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {

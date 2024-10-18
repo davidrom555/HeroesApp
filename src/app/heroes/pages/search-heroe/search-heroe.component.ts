@@ -10,11 +10,11 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./search-heroe.component.scss']
 })
 export class SearchHeroeComponent {
-  searchControl = new FormControl(''); // Control Reactivo
+  searchControl = new FormControl(''); 
 
   @Output() searchChange = new EventEmitter<string | null>(); // Emitirá el término de búsqueda
 
-  constructor(private heroesService: HeroesService) {}
+  constructor() {}
 
   ngOnInit(): void {
      // Emitir el término de búsqueda cada vez que cambie
