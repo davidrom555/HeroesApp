@@ -16,6 +16,15 @@ h1 {
   width: 25%;
 }
 
+  
+@media (max-width: 600px) {
+  .cont-imag {
+    width: 25%;
+    margin-left: -4%;
+  }
+  
+}
+
 .container {
   padding: 10px;
 }
