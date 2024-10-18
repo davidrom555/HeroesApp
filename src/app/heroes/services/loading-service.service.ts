@@ -10,6 +10,10 @@ export class LoadingService {
 
   showLoading() {
     this._loading.next(true);
+
+    setTimeout(() => {
+      this.hideLoading();
+    }, 1000);
   }
 
   hideLoading() {

@@ -29,6 +29,7 @@ export class HerolistComponent implements OnInit, OnDestroy {
     }
 
   ngOnInit(): void {
+    this.loadingService.showLoading(); // Mostrar el loader
     this.heroesSubscription = this.heroesService.getHeroes()
       .subscribe(heroes => {
         this.heroes = heroes;

@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>¿Está seguro?</h1>
 <div mat-dialog-content>
-  <p>Desea eliminar a {{ data.name }}</p>
+  <p>Desea eliminar a <b>{{ data.name | uppercase }}</b></p>
 </div>
 <div mat-dialog-actions>
   <button mat-button (click)="onNoClick()">No</button>

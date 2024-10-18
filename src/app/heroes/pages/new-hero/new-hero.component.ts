@@ -5,8 +5,9 @@ import { Hero } from '../../interfaces/hero.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { v4 as uuidv4 } from 'uuid'; // Importa uuidv4 para generar IDs únicos
-import { filter, switchMap } from 'rxjs';
+import { filter, Observable, switchMap } from 'rxjs';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { LoadingService } from '../../services/loading-service.service';
 
 @Component({
   selector: 'new-hero',
@@ -14,7 +15,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
   styleUrls: ['./new-hero.component.scss']
 })
 export class NewHeroComponent implements OnInit {
-
+  public loading$: Observable<boolean>;
   public heroForm = new FormGroup({
     id: new FormControl<string>('', { nonNullable: true }),
     name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
@@ -24,17 +25,23 @@ export class NewHeroComponent implements OnInit {
   
 
   selectedImage: File | null = null; // Almacena la imagen seleccionada
+  
 
   constructor(
     private heroesService: HeroesService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-  ) {}
+    private loaddingService: LoadingService
+  ) {
+     this.loading$ = this.loaddingService.loading$;
+  }
 
   ngOnInit(): void {
 
     if ( !this.router.url.includes('edit') ) return;
+
+    this.loaddingService.showLoading(); // Mostrar el loader
 
     this.activatedRoute.params
       .pipe(
