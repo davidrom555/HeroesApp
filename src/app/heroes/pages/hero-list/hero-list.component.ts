@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core'; 
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core'; 
 import { Hero } from '../../interfaces/hero.interface';
 import { HeroesService } from '../../services/heroes-service.service';
 import { Observable, Subscription } from 'rxjs';
@@ -18,15 +18,22 @@ export class HerolistComponent implements OnInit, OnDestroy {
   public pageSize = 5;  // Tamaño de página predeterminado
   public currentPage = 0;
   public totalHeroes = 0;
-  
+  public cols!: number;
+
   private heroesSubscription!: Subscription;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(private heroesService: HeroesService,
-    private loadingService: LoadingService ) {
-      this.loading$ = this.loadingService.loading$;
-    }
+              private loadingService: LoadingService) {
+    this.loading$ = this.loadingService.loading$;
+    this.updateCols(window.innerWidth); 
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any) {
+    this.updateCols(event.target.innerWidth);
+  }
 
   ngOnInit(): void {
     this.loadingService.showLoading(); // Mostrar el loader
@@ -67,5 +74,15 @@ export class HerolistComponent implements OnInit, OnDestroy {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.updatePaginatedHeroes();
+  }
+
+  updateCols(width: number) {
+    if (width < 600) {
+      this.cols = 2; // 2 columnas en mobile
+    } else if (width >= 600 && width < 960) {
+      this.cols = 3; // 3 columnas en tablet
+    } else {
+      this.cols = 5; // 4 columnas en desktop
+    }
   }
 }

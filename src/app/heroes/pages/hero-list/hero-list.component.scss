@@ -1,24 +1,6 @@
 
   
-  @media (max-width: 600px) {
-    mat-grid-list {
-      cols: 2; /* 2 columnas en mobile */
-    }
-  }
-  
-  @media (min-width: 600px) and (max-width: 960px) {
-    mat-grid-list {
-      cols: 3; /* 3 columnas en tablet */
-    }
-  }
-  
-  @media (min-width: 960px) {
-    mat-grid-list {
-      cols: 4; /* 4 columnas en desktop */
-    }
-  }
-  
-  
+ 
   .centered-title {
     text-align: center; 
   }
@@ -54,5 +36,20 @@
     z-index: 1000; 
     width: 100%;
   }
+
+  .grid-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .grid-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .grid-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  
+  
+  
   
   
