@@ -8,12 +8,12 @@ h1 {
 
 .hero-image {
   width: 400px;
-  max-height: 400px; 
+  max-height: 300px; 
   padding: 5px;
 }
 
 .cont-imag {
-  width: 25%;
+  width: 410px;
 }
 
   
@@ -21,6 +21,11 @@ h1 {
   .cont-imag {
     width: 25%;
     margin-left: -4%;
+  }
+  .hero-image {
+    width: 227px;
+    max-height: 198px;
+    padding: 5px;
   }
   
 }
