@@ -34,3 +34,9 @@
   </mat-card-actions>
 
 </mat-card>
+
+ <!-- Contenedor del loader -->
+ <div class="loading-overlay" *ngIf="loading$ | async">
+  <mat-spinner diameter="50"></mat-spinner>
+</div>
+
