@@ -1,19 +1,16 @@
-
 <mat-card>
   <mat-card-header>
-    <mat-card-title>{{ hero.name | uppercase}}</mat-card-title>
+    <mat-card-title>{{ hero.name | uppercase }}</mat-card-title>
     <mat-card-subtitle>{{ hero.power | titlecase }}</mat-card-subtitle>
   </mat-card-header>
 
   <!-- TODO: imagen -->
   <img mat-card-image [src]="hero | heroImage" [alt]="hero.name" class="hero-image">
-
-
   <mat-divider></mat-divider>
 
   <mat-card-actions>
 
-     <button mat-button
+    <button mat-button
       mat-raised
       [routerLink]="['/edit', hero.id ]">
       <mat-icon>edit</mat-icon>
@@ -22,21 +19,18 @@
 
     <span class="spacer"></span>
     <button
-    mat-flat-button
-    color="warn"
-    (click)="onDeleteHero()"
-    [disabled]="!hero.id"
-  >
-    <mat-icon>delete</mat-icon>
-    Borrar
-  </button>
+      mat-flat-button
+      color="warn"
+      (click)="onDeleteHero(hero)"
+      [disabled]="!hero.id">
+      <mat-icon>delete</mat-icon>
+      Borrar
+    </button>
 
   </mat-card-actions>
-
 </mat-card>
 
- <!-- Contenedor del loader -->
- <div class="loading-overlay" *ngIf="loading$ | async">
+<!-- Contenedor del loader -->
+<div class="loading-overlay" *ngIf="loadingSignal()">
   <mat-spinner diameter="50"></mat-spinner>
 </div>
-

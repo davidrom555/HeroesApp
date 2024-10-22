@@ -5,7 +5,7 @@ import { Hero } from '../../interfaces/hero.interface';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { v4 as uuidv4 } from 'uuid'; // Importa uuidv4 para generar IDs únicos
-import { filter, Observable, switchMap } from 'rxjs';
+import { filter } from 'rxjs';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 import { LoadingService } from '../../services/loading-service.service';
 
@@ -15,17 +15,16 @@ import { LoadingService } from '../../services/loading-service.service';
   styleUrls: ['./new-hero.component.scss']
 })
 export class NewHeroComponent implements OnInit {
-  public loading$: Observable<boolean>;
+
+  public loadingSignal = this.loaddingService.loading$;
   public heroForm = new FormGroup({
     id: new FormControl<string>('', { nonNullable: true }),
     name: new FormControl<string>('', { nonNullable: true, validators: [Validators.required] }),
     power: new FormControl<string>('', { validators: [Validators.required] }),
     alt_img: new FormControl<string | null>(null, { validators: [Validators.required] }), // alt_img requerido
   });
-  
 
-  selectedImage: File | null = null; // Almacena la imagen seleccionada
-  
+  public selectedImage: File | null = null; // Almacena la imagen seleccionada
 
   constructor(
     private heroesService: HeroesService,
@@ -33,38 +32,30 @@ export class NewHeroComponent implements OnInit {
     private router: Router,
     private dialog: MatDialog,
     private loaddingService: LoadingService
-  ) {
-     this.loading$ = this.loaddingService.loading$;
-  }
+  ) { }
 
   ngOnInit(): void {
+    if (!this.router.url.includes('edit')) return;
+    this.loaddingService.showLoading();
+    const id = this.activatedRoute.snapshot.params['id'];
+    const hero = this.heroesService.getHeroById(id);
 
-    if ( !this.router.url.includes('edit') ) return;
+    if (!hero) {
+      this.router.navigateByUrl('/');
+      return;
+    }
 
-    this.loaddingService.showLoading(); // Mostrar el loader
-
-    this.activatedRoute.params
-      .pipe(
-        switchMap( ({ id }) => this.heroesService.getHeroById( id ) ),
-      ).subscribe( hero => {
-
-        if ( !hero ) {
-          return this.router.navigateByUrl('/');
-        }
-
-        this.heroForm.reset( hero );
-        return;
-      });
-
+    this.heroForm.reset(hero);
   }
 
+  // Computado para obtener el héroe actual del formulario
   get currentHero(): Hero {
     return this.heroForm.value as Hero;
   }
 
   onAddHero(): void {
     if (this.heroForm.invalid) {
-      this.heroForm.markAllAsTouched(); 
+      this.heroForm.markAllAsTouched();
       return;
     }
 
@@ -73,11 +64,10 @@ export class NewHeroComponent implements OnInit {
       const newHero: Hero = {
         ...this.currentHero,
         id: this.currentHero.id || uuidv4(), // Solo genera un nuevo ID si no existe
-        alt_img: e.target?.result as string
+        alt_img: e.target?.result as string,
       };
 
       this.heroesService.addHero(newHero);
-
       this.router.navigate(['/list']);
     };
 
@@ -89,19 +79,17 @@ export class NewHeroComponent implements OnInit {
     }
   }
 
-
   onDeleteHero(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: this.heroForm.value
+      data: this.heroForm.value,
     });
-  
-   
+
     dialogRef.afterClosed()
       .pipe(
         filter((result: boolean) => result === true)
       )
       .subscribe(() => {
-        this.heroesService.removeHero(this.heroForm.get('id')?.value)
+        this.heroesService.removeHero(this.heroForm.get('id')?.value);
         this.router.navigate(['/list']);
       });
   }
@@ -119,5 +107,4 @@ export class NewHeroComponent implements OnInit {
       reader.readAsDataURL(this.selectedImage); // Convertir la imagen a Base64 para mostrarla inmediatamente
     }
   }
-  
 }

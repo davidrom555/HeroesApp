@@ -88,7 +88,7 @@
   </div>
 
   <!-- Contenedor del loader -->
-  <div class="loading-overlay" *ngIf="loading$ | async">
+  <div class="loading-overlay" *ngIf="loadingSignal()">
     <mat-spinner diameter="50"></mat-spinner>
   </div>
 </div>

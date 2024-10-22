@@ -1,8 +1,5 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { debounceTime, distinctUntilChanged, Observable, switchMap } from 'rxjs';
-import { Hero } from '../../interfaces/hero.interface';
-import { HeroesService } from '../../services/heroes-service.service';
-import { FormControl } from '@angular/forms';
+import { Component, EventEmitter, Output, signal } from '@angular/core';
+import { debounceTime, distinctUntilChanged, fromEvent } from 'rxjs';
 
 @Component({
   selector: 'search-heroe',
@@ -10,19 +7,27 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./search-heroe.component.scss']
 })
 export class SearchHeroeComponent {
-  searchControl = new FormControl(''); 
+  searchControl = signal<string>('');
 
-  @Output() searchChange = new EventEmitter<string | null>(); // Emitirá el término de búsqueda
+  @Output() searchChange = new EventEmitter<string | null>();
 
   constructor() {}
 
   ngOnInit(): void {
-     // Emitir el término de búsqueda cada vez que cambie
-     this.searchControl.valueChanges.pipe(
-      debounceTime(300), // Espera 300ms después de que el usuario deje de escribir
-      distinctUntilChanged() // Solo si el valor ha cambiado
-    ).subscribe(value => {
-      this.searchChange.emit(value); // Emitir el valor de búsqueda
-    });
+    fromEvent(document.getElementById('searchInput')!, 'input')
+      .pipe(
+        debounceTime(300), // Espera 300ms después de que el usuario deje de escribir
+        distinctUntilChanged() // Solo si el valor ha cambiado
+      )
+      .subscribe((event: Event) => {
+        const target = event.target as HTMLInputElement;
+        this.updateSearch(target.value);
+      });
+  }
+
+  // Método para actualizar el valor de la señal
+  updateSearch(value: string) {
+    this.searchControl.set(value);
+    this.searchChange.emit(value);
   }
 }

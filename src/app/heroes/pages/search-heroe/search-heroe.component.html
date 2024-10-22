@@ -1,6 +1,6 @@
 <div class="flex flex-column p-2 container">
   <mat-form-field appearance="outline">
     <mat-label>Buscar héroe</mat-label>
-    <input matInput [formControl]="searchControl" placeholder="Ingresa el nombre">
+    <input id="searchInput" matInput [value]="searchControl()" placeholder="Ingresa el nombre">
   </mat-form-field>
 </div>
