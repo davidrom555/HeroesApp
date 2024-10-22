@@ -64,7 +64,6 @@ export class HeroesService {
   // Cargar héroes desde el localStorage
   private loadFromLocalStorage(): Hero[] {
     const heroes = localStorage.getItem(this.localStorageKey);
-    debugger
     return heroes ? JSON.parse(heroes) : [];
   }
 

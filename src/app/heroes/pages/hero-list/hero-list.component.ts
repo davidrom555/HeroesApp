@@ -64,7 +64,6 @@ export class HerolistComponent implements OnInit {
   // Actualizar los héroes que se mostrarán en la página actual
   updatePaginatedHeroes(): void {
     const filteredHeroes = this.heroesSignal();
-    debugger
     const startIndex = this.currentPage * this.pageSize;
     const endIndex = startIndex + this.pageSize;
     this.paginatedHeroesSignal.set(filteredHeroes.slice(startIndex, endIndex));
