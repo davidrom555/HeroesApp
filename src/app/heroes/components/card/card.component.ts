@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, signal } from '@angular/core';
 import { Hero } from '../../interfaces/hero.interface';
-import { LoadingService } from '../../services/loading-service.service';
 
 @Component({
   selector: 'heroes-hero-card',
