@@ -42,7 +42,7 @@ export class HerolistComponent implements OnInit {
   }
 
   loadHeroes(): void {
-    this.loadingService.showLoading();
+      this.loadingService.showLoading();
       const heroes = this.heroesService.heroesList();
       this.heroesSignal.set(heroes);
       this.filteredHeroes = heroes;
