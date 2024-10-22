@@ -14,7 +14,7 @@ export class HeroImagePipe implements PipeTransform {
 
     if ( hero.alt_img ) return hero.alt_img; 
 
-    return `${ hero.id }.jpg`;
+    return `${ hero.name }.jpg`;
 
   }
 
