@@ -1,12 +1,11 @@
-import { LoadingService } from './../../services/loading-service.service';
 import { Component, OnInit, ViewChild, HostListener, signal } from '@angular/core';
 import { Hero } from '../../interfaces/hero.interface';
 import { HeroesService } from '../../services/heroes-service.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
-import { filter } from 'rxjs';
-import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { filter } from 'rxjs';
+import { LoadingService } from '../../services/loading-service.service';
 
 @Component({
   selector: 'hero-list',
@@ -15,24 +14,21 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 })
 export class HerolistComponent implements OnInit {
   public heroesSignal = signal<Hero[]>([]);
-  public loadingSignal = this.loadingService.loading$;
-  public filteredHeroesSignal = <any>([]);
-  public paginatedHeroesSignal = signal<Hero[]>([]);
-
-  public pageSize = 5;  // Tamaño de página predeterminado
+  public filteredHeroes = <Hero[]>[];
+  public pageSize = 5;
   public currentPage = 0;
   public totalHeroes = 0;
   public cols!: number;
+  public loadingSignal = this.loadingService.loading$;
+  public searchActive = false;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   constructor(
     private heroesService: HeroesService,
     private loadingService: LoadingService,
-    private router: Router,
     private dialog: MatDialog
   ) {
-
     this.updateCols(window.innerWidth);
   }
 
@@ -42,41 +38,43 @@ export class HerolistComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadHeroes();
+  }
 
-    this.loadingService.showLoading(); // Mostrar el loader
-    this.heroesSignal.set(this.heroesService.heroesList());
-    this.totalHeroes = this.heroesSignal.length;
-    this.updatePaginatedHeroes();
+  loadHeroes(): void {
+    this.loadingService.showLoading();
+      const heroes = this.heroesService.heroesList();
+      this.heroesSignal.set(heroes);
+      this.filteredHeroes = heroes;
+      this.totalHeroes = heroes.length;
+      this.updatePaginatedHeroes();
   }
 
   // Método para recibir el término de búsqueda desde el componente hijo
   onSearchChange(searchTerm: string | null): void {
-    const heroes = this.heroesSignal();
-    if (searchTerm) {
-      const filtered = heroes.filter(hero =>
-        hero.name.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-      this.heroesSignal.set(filtered);
+      this.searchActive = !!searchTerm; // Activar búsqueda si hay un término
+      const heroes = this.heroesService.getHeroesByName(searchTerm);
+      this.filteredHeroes = heroes;
+      this.totalHeroes = heroes.length;
+      this.currentPage = 0; // Reiniciar paginación
+      this.updatePaginatedHeroes();
+      this.paginator.firstPage();
     }
-    this.updatePaginatedHeroes();
-  }
 
   // Actualizar los héroes que se mostrarán en la página actual
   updatePaginatedHeroes(): void {
-    const filteredHeroes = this.heroesSignal();
     const startIndex = this.currentPage * this.pageSize;
     const endIndex = startIndex + this.pageSize;
-    this.paginatedHeroesSignal.set(filteredHeroes.slice(startIndex, endIndex));
+    const paginatedHeroes = this.filteredHeroes.slice(startIndex, endIndex);
+    this.heroesSignal.set(paginatedHeroes);
   }
 
-  // Método que se ejecuta cuando el paginador cambia de página
   onPageChange(event: PageEvent): void {
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
     this.updatePaginatedHeroes();
   }
 
-  // Ajustar columnas según el tamaño de la pantalla
   updateCols(width: number) {
     if (width < 600) {
       this.cols = 2; // 2 columnas en mobile
@@ -87,19 +85,16 @@ export class HerolistComponent implements OnInit {
     }
   }
 
-  onDeleteHero(hero: any) {
+  onDeleteHero(hero: any): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
       data: hero,
     });
 
     dialogRef.afterClosed()
-      .pipe(
-        filter((result: boolean) => result === true)
-      )
+      .pipe(filter((result: boolean) => result === true))
       .subscribe(() => {
         this.heroesService.removeHero(hero.id);
-        this.heroesSignal.set(this.heroesService.heroesList());
-        this.router.navigate(['/list']);
+        this.loadHeroes();
       });
   }
 }

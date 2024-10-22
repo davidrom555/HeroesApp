@@ -1,33 +1,37 @@
-<mat-divider class="mat-divider" *ngIf="heroesSignal().length > 0"></mat-divider>
+<!-- Mostrar mensaje si no hay héroes en la lista original y no se está buscando -->
+<ng-container *ngIf="heroesSignal().length === 0 && !searchActive; else showHeroes">
+  <mat-card class="empty-message">
+    <mat-card-content>
+      <div class="center-content">
+        <h2>No hay héroes disponibles</h2>
+        <p>Desde el menú puedes agregar un nuevo héroe.</p>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
 
-<!-- Mostrar mensaje si no hay héroes en la lista -->
-<mat-card *ngIf="heroesSignal().length === 0" class="empty-message">
-  <mat-card-content>
-    <div class="center-content">
-      <h2>No hay héroes disponibles</h2>
-      <p>Desde el menú puedes agregar un nuevo héroe.</p>
-    </div>
-  </mat-card-content>
-</mat-card>
+<ng-template #showHeroes>
+  <search-heroe  (searchChange)="onSearchChange($event)"></search-heroe>
+  <!-- Mostrar grilla de héroes cuando existan -->
+  <div *ngIf="filteredHeroes.length > 0">
+    <mat-grid-list [cols]="cols" rowHeight="350px" class="bm-8 pt-2">
+      <mat-grid-tile *ngFor="let hero of filteredHeroes">
+        <heroes-hero-card [hero]="hero" (onDelete)="onDeleteHero($event)"></heroes-hero-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
+  
+  <!-- Mostrar paginador solo si hay héroes -->
+  <mat-paginator 
+    *ngIf="filteredHeroes.length > 0"
+    [length]="totalHeroes"
+    [pageSize]="pageSize" 
+    [pageSizeOptions]="[5, 10, 25, 100]"
+    (page)="onPageChange($event)">
+  </mat-paginator>
+</ng-template>
 
-<!-- Mostrar grilla de héroes cuando existan -->
-<div *ngIf="heroesSignal().length > 0">
-  <search-heroe (searchChange)="onSearchChange($event)"></search-heroe>
-  <mat-grid-list [cols]="cols" rowHeight="350px" class="bm-8 pt-2">
-    <mat-grid-tile *ngFor="let hero of heroesSignal()">
-      <heroes-hero-card [hero]="hero" (onDelete)="onDeleteHero($event)"></heroes-hero-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
 
-<!-- Mostrar paginador solo si hay héroes -->
-<mat-paginator 
-  *ngIf="heroesSignal().length > 0"
-  [length]="totalHeroes"
-  [pageSize]="pageSize"
-  [pageSizeOptions]="[5, 10, 25, 100]"
-  (page)="onPageChange($event)">
-</mat-paginator>
 
 <!-- Contenedor del loader -->
 <div class="loading-overlay" *ngIf="loadingSignal()">
