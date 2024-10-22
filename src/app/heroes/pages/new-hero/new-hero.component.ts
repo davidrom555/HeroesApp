@@ -24,7 +24,9 @@ export class NewHeroComponent implements OnInit {
     alt_img: new FormControl<string | null>(null, { validators: [Validators.required] }), // alt_img requerido
   });
 
-  public selectedImage: File | null = null; // Almacena la imagen seleccionada
+  public selectedFile: File | null = null; // Para almacenar el archivo seleccionado
+  public selectedImage: string | null = null; // Para almacenar la representación en Base64 o URL de la imagen
+
 
   constructor(
     private heroesService: HeroesService,
@@ -46,6 +48,10 @@ export class NewHeroComponent implements OnInit {
     }
 
     this.heroForm.reset(hero);
+    // Si el héroe tiene una imagen previa la asigna a selectedImage
+    if (hero.alt_img) {
+      this.selectedImage = hero.alt_img; // Establecer la URL de la imagen si existe
+    }
   }
 
   // Computado para obtener el héroe actual del formulario
@@ -58,26 +64,27 @@ export class NewHeroComponent implements OnInit {
       this.heroForm.markAllAsTouched();
       return;
     }
-
     const reader = new FileReader();
     reader.onload = (e) => {
       const newHero: Hero = {
         ...this.currentHero,
         id: this.currentHero.id || uuidv4(), // Solo genera un nuevo ID si no existe
-        alt_img: e.target?.result as string,
+        alt_img: e.target?.result as string, // Almacena el resultado del FileReader en Base64
       };
-
+  
       this.heroesService.addHero(newHero);
       this.router.navigate(['/list']);
     };
-
-    if (this.selectedImage) {
-      reader.readAsDataURL(this.selectedImage);
+  
+    // Usa selectedFile (que es de tipo File) en lugar de selectedImage
+    if (this.selectedFile) {
+      reader.readAsDataURL(this.selectedFile); // Lee el archivo seleccionado como URL Base64
     } else {
       this.heroesService.addHero(this.currentHero);
       this.router.navigate(['/list']);
     }
   }
+  
 
   onDeleteHero(): void {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
@@ -97,14 +104,15 @@ export class NewHeroComponent implements OnInit {
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length) {
-      this.selectedImage = input.files[0];
-      // Leer la imagen seleccionada como URL temporal para previsualización
+      this.selectedFile = input.files[0]; // Almacenar el archivo seleccionado
       const reader = new FileReader();
       reader.onload = (e) => {
-        // Establecer la imagen en el formulario (url de la imagen)
-        this.heroForm.patchValue({ alt_img: e.target?.result as string });
+        // Asignar la representación en Base64 de la imagen seleccionada
+        this.selectedImage = e.target?.result as string;
+        // Actualiza el formulario con la representación de la imagen en Base64
+        this.heroForm.patchValue({ alt_img: this.selectedImage });
       };
-      reader.readAsDataURL(this.selectedImage); // Convertir la imagen a Base64 para mostrarla inmediatamente
+      reader.readAsDataURL(this.selectedFile); // Lee el archivo como una URL de datos (Base64)
     }
   }
 }

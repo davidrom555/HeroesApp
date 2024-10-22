@@ -45,17 +45,19 @@
               </mat-card>
             </div>
 
-            <div class="col-12">
-              <label for="image-upload" class="mat-label">Cargar imagen</label>
+            <div class="col-12" class="upload-hero-image">
+              <label for="image-upload" class="mat-label">
+                {{ selectedImage ? 'Cambiar imagen' : 'Cargar' }}
+              </label>
               <input
                 id="image-upload"
                 type="file"
                 accept="image/*"
                 (change)="onImageSelected($event)"
-                style="display: block;"
+              
               />
-              <mat-icon matPrefix>photo</mat-icon>
-            </div>
+              <mat-icon matPrefix>photo</mat-icon>         
+            </div>   
 
           </form>
 
