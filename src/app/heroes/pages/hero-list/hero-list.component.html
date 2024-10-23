@@ -11,11 +11,11 @@
 </ng-container>
 
 <ng-template #showHeroes>
-  <search-heroe  (searchChange)="onSearchChange($event)"></search-heroe>
+  <search-heroe (searchChange)="onSearchChange($event)"></search-heroe>
   <!-- Mostrar grilla de héroes cuando existan -->
   <div *ngIf="filteredHeroes.length > 0">
     <mat-grid-list [cols]="cols" rowHeight="350px" class="bm-8 pt-2">
-      <mat-grid-tile *ngFor="let hero of filteredHeroes">
+      <mat-grid-tile *ngFor="let hero of heroesSignal()"> 
         <heroes-hero-card [hero]="hero" (onDelete)="onDeleteHero($event)"></heroes-hero-card>
       </mat-grid-tile>
     </mat-grid-list>
@@ -30,8 +30,6 @@
     (page)="onPageChange($event)">
   </mat-paginator>
 </ng-template>
-
-
 
 <!-- Contenedor del loader -->
 <div class="loading-overlay" *ngIf="loadingSignal()">
