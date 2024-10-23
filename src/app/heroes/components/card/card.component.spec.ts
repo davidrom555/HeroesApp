@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CardComponent } from './card.component';
 import { Hero } from '../../interfaces/hero.interface';
 import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider'; // Importar MatDividerModule
+import { MatDividerModule } from '@angular/material/divider'; 
 import { HeroImagePipe } from '../../pipes/hero-image.pipe'; // Importar el pipe real o mockearlo
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
@@ -14,8 +14,8 @@ describe('CardComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CardComponent, HeroImagePipe], // Declarar el pipe
-      imports: [MatCardModule, MatDividerModule, AppModule], // Importar MatDividerModule
+      declarations: [CardComponent, HeroImagePipe], 
+      imports: [MatCardModule, MatDividerModule, AppModule], // importa modulos
       providers: [
         {
           provide: ActivatedRoute,
