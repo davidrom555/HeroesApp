@@ -1,27 +1,50 @@
 # HeroesApp
+    Este proyecto es una aplicación SPA (Single Page Application) desarrollada en Angular 16 para gestionar héroes.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+## Características
+- CRUD de héroes (Crear, Leer, Actualizar, Eliminar)
+- Paginación y búsqueda de héroes
+- Validación de formularios
+- Uso de Angular Material para el diseño de la interfaz
 
-## Development server
+## Requisitos previos
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. **Instalar Node.js con `nvm`:**  
+   Si utilizas `nvm` para gestionar versiones de Node.js, asegúrate de instalar la versión 16.14.0 con el siguiente comando:
 
-## Code scaffolding
+   nvm install 16.14.0
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+2. Instalar Angular CLI:
 
-## Build
+    Para instalar Angular CLI en la versión 16.2.16, ejecuta el siguiente comando:
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+    npm install -g @angular/cli@16.2.16
 
-## Running unit tests
+    --Configuración e Instalación--
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. Clonar el repositorio:
 
-## Running end-to-end tests
+        git clone <https://github.com/davidrom555/HeroesApp.git>
+        cd heroes-app   
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+2. Instalar las dependencias:
 
-## Further help
+    npm install
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+3.  Iniciar el servidor de desarrollo:
+        Ejecuta ng serve para iniciar el servidor de desarrollo. Navega a http://localhost:4200/. 
+4.  Construir el proyecto:
+        Ejecuta ng build para construir el proyecto. Los archivos resultantes se almacenarán en el directorio dist/.
+
+        ng build
+5.  Gestión de imágenes:
+        Las imágenes utilizadas para agregar un nuevo héroe se encuentran en el directorio assets/img.
+
+5. Pruebas unitarias:
+        Ejecuta las pruebas unitarias:
+        
+        ng test 
+6. prueba en vivo:
+        El proyecto ha sido subido para pruebas directas. Puedes acceder a la aplicación en vivo aquí: 
+
+        https://heroes-app-min-data.netlify.app/
