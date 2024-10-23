@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class DesignPageComponent {
 
   public sidebarOptions = [
-    { label: 'Héroes', icon: 'label', url: './list' },
-    { label: 'Nuevo Héroe', icon: 'add', url: './new-hero' },
-  ]
+    { label: 'Héroes', icon: 'label', url: './list' }, // Opción de la barra lateral para listar héroes
+    { label: 'Nuevo Héroe', icon: 'add', url: './new-hero' }, // Opción de la barra lateral para crear un héroe
+  ];
 }

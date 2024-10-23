@@ -9,14 +9,15 @@ import { Hero } from '../../interfaces/hero.interface';
 export class CardComponent implements OnInit {
 
   @Input()
-  public hero!: Hero;
-  @Output() onDelete = new EventEmitter<string | null>(); // Emitirá el término de búsqueda
- 
+  public hero!: Hero; // Recibe el héroe desde el componente padre
+
+  @Output() onDelete = new EventEmitter<string | null>(); // Emite un evento cuando se elimina el héroe
+
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {} // Ciclo de vida de inicialización, sin lógica aún
 
-  onDeleteHero(hero:any){
-    this.onDelete.emit(hero);
+  onDeleteHero(hero: any) {
+    this.onDelete.emit(hero); // Emite el héroe al componente padre para ser eliminado
   }
 }

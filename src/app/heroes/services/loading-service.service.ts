@@ -4,21 +4,19 @@ import { Injectable, signal } from '@angular/core';
   providedIn: 'root'
 })
 export class LoadingService {
-  // Signal para manejar el estado de carga
-  private _loading = signal<boolean>(false);
-  
-  // Exponer la señal directamente
-  public loading$ = this._loading; 
+  private _loading = signal<boolean>(false); // Signal para el estado de carga
+
+  public loading$ = this._loading; // Exponer la signal públicamente
 
   showLoading() {
-    this._loading.set(true); 
+    this._loading.set(true); // Activa el estado de carga
 
     setTimeout(() => {
-      this.hideLoading();
+      this.hideLoading(); // Desactiva el estado de carga después de 1 segundo
     }, 1000);
   }
 
   hideLoading() {
-    this._loading.set(false);
+    this._loading.set(false); // Desactiva el estado de carga
   }
 }

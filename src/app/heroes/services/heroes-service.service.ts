@@ -6,56 +6,47 @@ import { Hero } from '../interfaces/hero.interface';
 })
 export class HeroesService {
   
-  // Signal para almacenar el estado de los héroes
-  public heroesSignal = signal<Hero[]>([]);  // Inicializamos con un array vacío
+  public heroesSignal = signal<Hero[]>([]);  // Signal para almacenar la lista de héroes
 
-  // Computed para obtener héroes de manera reactiva
-  public heroesList = computed(() => this.heroesSignal());
+  public heroesList = computed(() => this.heroesSignal()); // Computed para obtener la lista de héroes
 
   constructor() {}
 
-  // Agregar o actualizar un héroe
   addHero(hero: Hero): void {
-    const currentHeroes = this.heroesSignal();
-    const existingHeroIndex = currentHeroes.findIndex(h => h.id === hero.id);
+    const currentHeroes = this.heroesSignal(); // Obtiene los héroes actuales
+    const existingHeroIndex = currentHeroes.findIndex(h => h.id === hero.id); // Busca si el héroe ya existe
 
     if (existingHeroIndex !== -1) {
-      // Si el héroe ya existe, lo actualizamos
-      currentHeroes[existingHeroIndex] = hero;
+      currentHeroes[existingHeroIndex] = hero; // Actualiza el héroe si ya existe
     } else {
-      // Si no existe, lo añadimos
-      currentHeroes.push(hero);
+      currentHeroes.push(hero); // Agrega el héroe si no existe
     }
 
-    this.updateHeroes([...currentHeroes]); // crea una nueva referencia al array
+    this.updateHeroes([...currentHeroes]); // Actualiza la signal con una nueva referencia
   }
 
-  // Elimina un héroe por su ID
   removeHero(id: any): void {
-    const updatedHeroes = this.heroesSignal().filter(hero => hero.id !== id);
-    this.updateHeroes(updatedHeroes);
+    const updatedHeroes = this.heroesSignal().filter(hero => hero.id !== id); // Filtra héroes y elimina por ID
+    this.updateHeroes(updatedHeroes); // Actualiza la signal con la lista filtrada
   }
 
-  // Obtiene un héroe por su ID
   getHeroById(id: string): Hero | undefined {
-    return this.heroesSignal().find(h => h.id === id);
+    return this.heroesSignal().find(h => h.id === id); // Busca un héroe por su ID
   }
 
-  // Filtra héroes por nombre
   getHeroesByName(name: string | null): Hero[] {
-    const currentHeroes = this.heroesSignal();
+    const currentHeroes = this.heroesSignal(); // Obtiene los héroes actuales
 
     if (!name) {
-      return currentHeroes;
+      return currentHeroes; // Devuelve todos los héroes si no hay nombre de búsqueda
     }
 
     return currentHeroes.filter(hero =>
-      hero.name.toLowerCase().includes(name.toLowerCase())
+      hero.name.toLowerCase().includes(name.toLowerCase()) // Filtra héroes por nombre
     );
   }
 
-  // Actualiza la signal
   private updateHeroes(heroes: Hero[]): void {
-    this.heroesSignal.set(heroes); 
+    this.heroesSignal.set(heroes); // Actualiza la signal con la nueva lista de héroes
   }
 }
