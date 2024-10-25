@@ -5,17 +5,9 @@ import { Hero } from '../interfaces/hero.interface';
   name: 'heroImage'
 })
 export class HeroImagePipe implements PipeTransform {
-
-  transform( hero: Hero ): string {
-
-    if ( !hero.id && !hero.alt_img ) {
-      return 'assets/no-image.png';
-    }
-
-    if ( hero.alt_img ) return hero.alt_img; 
-
-    return `${ hero.name }.jpg`;
-
+  // El método transform recibe un objeto 'hero' de tipo Hero y devuelve un string.
+  transform(hero: Hero): string {
+    // Retorna la imagen alternativa 'alt_img' si existe; de lo contrario, retorna una cadena vacía.
+    return hero.alt_img || '';
   }
-
 }
